@@ -1,6 +1,5 @@
 package com.atom.heartratecompose.ui.screen
 
-import android.widget.Space
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -10,7 +9,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
@@ -33,12 +30,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +41,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -60,13 +54,11 @@ import androidx.paging.compose.items
 import com.atom.heartratecompose.R
 import com.atom.heartratecompose.ui.theme.ActBg
 import com.atom.heartratecompose.ui.theme.Color111
-import com.atom.heartratecompose.ui.theme.Color999
 import com.atom.heartratecompose.ui.theme.hightResult
 import com.atom.heartratecompose.ui.theme.lowResult
 import com.atom.heartratecompose.ui.theme.normalResult
 import com.atom.heartratecompose.ui.vm.HeartRateVM
 import com.atom.heartratecompose.utils.format
-import com.atom.heartratecompose.utils.logE
 import com.atom.heartratecompose.withClick
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.time.LocalDateTime
@@ -111,7 +103,9 @@ fun HomeScreen(controller: NavController) {
                         .height(100.dp),
                         rateValue = it?.heartRate ?: 0,
                         dateValue = it?.date?: LocalDateTime.now(),
-                        onClick = {})
+                        onClick = {
+                            controller.navigate("result?heartRate=${it?.heartRate ?: 0}")
+                        })
                 }
             }
 
@@ -231,11 +225,6 @@ fun HomeBottom(
     dateValue:LocalDateTime = LocalDateTime.now()
 ) {
 
-
-    BoxWithConstraints {
-
-
-    }
 
     Card(
         modifier = if (rateValue == 0) modifier else modifier.withClick {

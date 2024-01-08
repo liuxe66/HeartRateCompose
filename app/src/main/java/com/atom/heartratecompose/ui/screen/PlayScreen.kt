@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,9 +44,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
@@ -58,7 +55,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -66,15 +62,10 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.atom.heartratecompose.R
 import com.atom.heartratecompose.app.HeartRateApp
-import com.atom.heartratecompose.db.entity.HeartRateEntity
 import com.atom.heartratecompose.ui.theme.ActBg
-import com.atom.heartratecompose.ui.theme.Pink80
-import com.atom.heartratecompose.ui.theme.ProgressColor
 import com.atom.heartratecompose.ui.vm.HeartRateVM
 import com.atom.heartratecompose.utils.ImageProcessing
 import com.atom.heartratecompose.utils.logE
-import com.atom.heartratecompose.withClick
-import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
@@ -124,20 +115,24 @@ fun PlayScreen(controller: NavController) {
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NoPermissionScreen(cameraPermissionState: PermissionState) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        val message = if (cameraPermissionState.status.shouldShowRationale) {
-            "未获取照相机权限导致无法使用照相机功能"
-        } else {
-            "请授权照相机的权限"
-        }
-        Text(message)
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = {
-            cameraPermissionState.launchPermissionRequest()
-        }) {
-            Text("请求授权")
+    Box(modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center){
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            val message = if (cameraPermissionState.status.shouldShowRationale) {
+                "未获取照相机权限导致无法使用照相机功能"
+            } else {
+                "请授权照相机的权限"
+            }
+            Text(message)
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = {
+                cameraPermissionState.launchPermissionRequest()
+            }) {
+                Text("请求授权")
+            }
         }
     }
+
 }
 
 @Composable
@@ -188,7 +183,7 @@ fun PlayPreview(controller: NavController) {
 //            modifier = Modifier
 //                .fillMaxWidth()
 //                .scale(scaleValue)
-//                .offset(y=-60.dp),
+//                .offset(y=0.dp),
 //            heartRate = heartRate
 //        )
 
